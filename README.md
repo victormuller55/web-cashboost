@@ -27,8 +27,5 @@ git clone https://github.com/victormuller55/web-cashboost.git
 - Open the Project: Navigate to the project folder and open the appropriate files in your preferred web development environment.
 - Run the Application: Deploy the web system to a web server or run it locally using a web server environment.
 
-## Contribution:
-Contributions to this project are welcome. If you have ideas for enhancements, new features, or bug fixes, please feel free to open an issue or submit a pull request.
-
 ## Contact:
 For inquiries or further information about the Web CashBoost system, you can reach out via email at victormulle050@gmail.com.
