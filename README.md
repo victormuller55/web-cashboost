@@ -7,17 +7,16 @@ Web CashBoost is designed to complement the functionality of the CashBoost mobil
 
 ## Key Features:
 
-- Dashboard: A centralized dashboard providing an overview of key metrics and activities.
-- Inventory Management: Administrators can add, update, and remove automotive products from the inventory.
-- Order Processing: Efficient management of incoming orders, including order tracking and fulfillment.
-- Customer Relations: Seamless communication with customers, handling inquiries, and providing support.
-- Sales Analytics: Access to comprehensive analytics and insights to monitor sales performance and trends.
+- Table Sellers: It's possible to view all sellers in the aplication.
+- Table Notes: It's possible to view, accept or recuse seller notes sent.
+- Accept / Recuse Gifts: It's possible to accept or recuse sellers voucher solicitations.
+- Accept / Recuse Money (PIX): It's possible to accept or recuse sellers money solicitations.
 
 ## Technologies Used:
+
 - Flutter: The framework used for building the web-based administration interface.
 - Dart: The programming language used for implementing application logic and functionality.
-- HTML/CSS/JavaScript: Standard web technologies utilized for frontend development.
-- 
+  
 ## How to Use:
 - Clone the Repository:
 
