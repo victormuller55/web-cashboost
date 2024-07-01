@@ -7,7 +7,6 @@ class VendedoresModel {
   int? pontosUsuario;
   int? pontosPendentesUsuario;
   String? senhaUsuario;
-  String? dataUsuario;
   int? pontosPedentesUsuario;
   int? valorPix;
   int? idConcessionaria;
@@ -22,7 +21,7 @@ class VendedoresModel {
     this.pontosUsuario,
     this.pontosPendentesUsuario,
     this.senhaUsuario,
-    this.dataUsuario,
+
     this.pontosPedentesUsuario,
     this.valorPix,
     this.idConcessionaria,
@@ -38,7 +37,6 @@ class VendedoresModel {
       pontosPendentesUsuario: 0,
       emailUsuario: "",
       senhaUsuario: "",
-      dataUsuario: "",
       pontosPedentesUsuario: 0,
       valorPix: 0,
     );
@@ -53,7 +51,6 @@ class VendedoresModel {
     pontosUsuario = json['pontos_usuario'];
     pontosPendentesUsuario = json['pontos_pendentes_usuario'];
     senhaUsuario = json['senha_usuario'];
-    dataUsuario = json['data_usuario'];
     idConcessionaria = json['id_concessionaria'];
     nomeConcessionaria = json['nome_concessionaria'];
   }

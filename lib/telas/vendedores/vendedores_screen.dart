@@ -86,7 +86,6 @@ class _VendedoresScreenState extends State<VendedoresScreen> {
       ],
       colunas: [
         DataColumn(label: text(Strings.foto, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.dataDeCadastro, bold: true, color: Colors.white)),
         DataColumn(label: text(Strings.nome, bold: true, color: Colors.white)),
         DataColumn(label: text(Strings.cpf, bold: true, color: Colors.white)),
         DataColumn(label: text(Strings.celular, bold: true, color: Colors.white)),
@@ -97,7 +96,6 @@ class _VendedoresScreenState extends State<VendedoresScreen> {
         return DataRow(
           cells: [
             DataCell(imageTable(Endpoint.endpointImageUsuario(model.idUsuario!))),
-            DataCell(textSelectable(formatarData(model.dataUsuario ?? "-"))),
             DataCell(textSelectable(model.nomeUsuario ?? "-")),
             DataCell(textSelectable(formatarCPF(model.cpfUsuario ?? "-"))),
             DataCell(textSelectable(model.celularUsuario ?? "-")),

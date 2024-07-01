@@ -1,4 +1,4 @@
-const String server = "http://3.94.198.21";
+const String server = "http://localhost:5000";
 
 class Endpoint {
 
@@ -11,7 +11,7 @@ class Endpoint {
   static String endpointExtrato = "$server/v1/soamer/extrato";
   static String endpointExtratoTodos = "$server/v1/soamer/extrato/todos";
   static String endpointRecuperarSenha = "$server/v1/soamer/senha/recuperar";
-  static String endpointHistorico = "$server/v1/soamer/historico";
+  static String endpointHistorico = "$server/v1/soamer/voucher/solicitados";
 
   static String endpointVaucher = "$server/v1/soamer/vaucher";
   static String endpointVaucherMaisTrocados = "$server/v1/soamer/vaucher/trocados";

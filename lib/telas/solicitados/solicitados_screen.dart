@@ -98,7 +98,7 @@ class _SolicitadosScreenState extends State<SolicitadosScreen> {
         cells: [
           DataCell(textSelectable(model.nomeUsuario ?? '')),
           DataCell(textSelectable(formatarData(model.dataPedido!))),
-          DataCell(textSelectable(model.tituloVoucher.toString())),
+          DataCell(textSelectable(model.titulo.toString())),
           DataCell(textSelectable(model.valor.toString())),
           DataCell(textSelectable(_enviadoValue(model), bold: true, color: _enviadoColor(model))),
           DataCell(model.enviado! ? textSelectable("-") : elevatedButtonTable(Strings.enviado, () => _showDialogMarcarComoEnviado(model))),

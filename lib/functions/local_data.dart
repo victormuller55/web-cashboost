@@ -8,7 +8,6 @@ void saveLocalUserData(VendedoresModel usuarioModel) async {
   localData.setString("nome", usuarioModel.nomeUsuario ?? "");
   localData.setString("email", usuarioModel.emailUsuario ?? "");
   localData.setString("cpf", usuarioModel.cpfUsuario ?? "");
-  localData.setString("data", usuarioModel.dataUsuario ?? "");
 }
 
 Future<VendedoresModel> getModelLocal() async {
@@ -20,7 +19,6 @@ Future<VendedoresModel> getModelLocal() async {
     emailUsuario: localData.getString("email"),
     cpfUsuario: localData.getString("cpf"),
     nomeConcessionaria: localData.getString("nome_concessionaria"),
-    dataUsuario: localData.getString("data"),
   );
 }
 
