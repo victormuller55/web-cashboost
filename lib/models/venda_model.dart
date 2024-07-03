@@ -3,7 +3,7 @@ class VendaModel {
   int? idUsuario;
   String? nomeUsuario;
   String? vendaNfeCode;
-  String? ponteira;
+  int? ponteira;
   String? dataEnvio;
   int? vendaAprovado;
 
@@ -22,7 +22,7 @@ class VendaModel {
     idUsuario = json['id_usuario'];
     nomeUsuario = json['nome_usuario'];
     vendaNfeCode = json['venda_nfe_code'];
-    ponteira = json['ponteira'];
+    ponteira = json['id_ponteira'];
     dataEnvio = json['data_envio'];
     vendaAprovado = json['venda_aprovado'];
   }

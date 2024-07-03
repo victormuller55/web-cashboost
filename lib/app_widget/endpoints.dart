@@ -19,7 +19,7 @@ class Endpoint {
   static String endpointTrocarVoucher = "$server/v1/soamer/vaucher/trocar";
 
   static String endpointVenda = "$server/v1/soamer/venda";
-  static String endpointVendaRecusar = "$server/v1/soamer/venda/rescusar";
+  static String endpointVendaRecusar = "$server/v1/soamer/venda/recusar";
 
   static String endpointImageUsuario(int idUsuario) {
     return "$server/v1/soamer/usuario/foto?id_usuario=$idUsuario";

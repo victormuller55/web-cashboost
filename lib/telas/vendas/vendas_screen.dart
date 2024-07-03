@@ -60,7 +60,7 @@ class _VendasScreenState extends State<VendasScreen> {
   }
 
   void _onTapEnviarMensagem(VendaModel vendaModel) {
-    bloc.add(VendaRecusarEvent(vendaModel.idVenda!, vendaModel.idUsuario!, 2, controllerMansagem.text));
+    bloc.add(VendaRecusarEvent(vendaModel.idVenda!, controllerMansagem.text));
     Navigator.pop(context);
   }
 
@@ -70,7 +70,7 @@ class _VendasScreenState extends State<VendasScreen> {
   }
 
   void _onTapAceitar(VendaModel vendaModel) {
-    bloc.add(VendaAceitarEvent(vendaModel.idVenda!, vendaModel.idUsuario!, 1));
+    bloc.add(VendaAceitarEvent(vendaModel.idVenda!));
     Navigator.pop(context);
   }
 
@@ -131,7 +131,7 @@ class _VendasScreenState extends State<VendasScreen> {
           DataCell(textSelectable(model.nomeUsuario ?? '')),
           DataCell(textSelectable(model.vendaNfeCode ?? '')),
           DataCell(textSelectable(formatarData(model.dataEnvio ?? ''))),
-          DataCell(textSelectable(model.ponteira!)),
+          DataCell(textSelectable(model.ponteira.toString())),
           DataCell(textSelectable(_aprovadoValue(model), bold: true, color: _aprovadoColor(model))),
           model.vendaAprovado != 0 ? DataCell(textSelectable("-")) : DataCell(elevatedButtonTable(Strings.aprovar, () => _showDialogAceitar(model))),
         ],

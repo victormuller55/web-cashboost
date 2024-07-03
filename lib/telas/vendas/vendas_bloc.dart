@@ -32,7 +32,7 @@ class VendaBloc extends Bloc<VendaEvent, VendaState> {
       emit(VendaLoadingState());
       try {
         List<VendaModel> vendas = [];
-        Response response = await aceitarVenda(event.idUsuario, event.idVenda, event.aprovado);
+        Response response = await aceitarVenda(event.idVenda);
 
         for (var voucher in jsonDecode(response.body)) {
           var vendaModel = VendaModel.fromMap(voucher);
@@ -49,7 +49,7 @@ class VendaBloc extends Bloc<VendaEvent, VendaState> {
       emit(VendaLoadingState());
       try {
         List<VendaModel> vendas = [];
-        Response response = await recusarVenda(event.idUsuario, event.idVenda, event.aprovado, event.message);
+        Response response = await recusarVenda(event.idVenda, event.message);
 
         for (var voucher in jsonDecode(response.body)) {
           var vendaModel = VendaModel.fromMap(voucher);
