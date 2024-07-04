@@ -1,23 +1,23 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:web_cashboost/models/usuario_model.dart';
+import 'package:web_cashboost/models/vendedor_model.dart';
 
 void saveLocalUserData(VendedoresModel usuarioModel) async {
   final SharedPreferences localData = await SharedPreferences.getInstance();
 
-  localData.setInt("id", usuarioModel.idUsuario ?? 0);
-  localData.setString("nome", usuarioModel.nomeUsuario ?? "");
-  localData.setString("email", usuarioModel.emailUsuario ?? "");
-  localData.setString("cpf", usuarioModel.cpfUsuario ?? "");
+  localData.setInt("id", usuarioModel.id ?? 0);
+  localData.setString("nome", usuarioModel.nome ?? "");
+  localData.setString("email", usuarioModel.email ?? "");
+  localData.setString("cpf", usuarioModel.cpf ?? "");
 }
 
 Future<VendedoresModel> getModelLocal() async {
   final SharedPreferences localData = await SharedPreferences.getInstance();
 
   return VendedoresModel(
-    idUsuario: localData.getInt("id"),
-    nomeUsuario: localData.getString("nome"),
-    emailUsuario: localData.getString("email"),
-    cpfUsuario: localData.getString("cpf"),
+    id: localData.getInt("id"),
+    nome: localData.getString("nome"),
+    email: localData.getString("email"),
+    cpf: localData.getString("cpf"),
     nomeConcessionaria: localData.getString("nome_concessionaria"),
   );
 }

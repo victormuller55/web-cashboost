@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:web_cashboost/app_widget/color/colors.dart';
-import 'package:web_cashboost/app_widget/endpoints.dart';
-import 'package:web_cashboost/app_widget/strings.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_colors.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_endpoints.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_font_sizes.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_radius.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_spacing.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_strings.dart';
 import 'package:web_cashboost/functions/navigation.dart';
 import 'package:web_cashboost/models/voucher_model.dart';
 import 'package:web_cashboost/telas/vouchers/cadastrar_editar_voucher/cadastrar_editar_voucher_screen.dart';
@@ -11,9 +14,11 @@ import 'package:web_cashboost/telas/vouchers/voucher_event.dart';
 import 'package:web_cashboost/telas/vouchers/voucher_state.dart';
 import 'package:web_cashboost/widgets/container.dart';
 import 'package:web_cashboost/widgets/dialog.dart';
+import 'package:web_cashboost/widgets/drawer.dart';
 import 'package:web_cashboost/widgets/elevated_button.dart';
 import 'package:web_cashboost/widgets/erro.dart';
 import 'package:web_cashboost/widgets/loading.dart';
+import 'package:web_cashboost/widgets/sized_box.dart';
 import 'package:web_cashboost/widgets/tables.dart';
 import 'package:web_cashboost/widgets/util.dart';
 
@@ -25,7 +30,6 @@ class VoucherScreen extends StatefulWidget {
 }
 
 class _VoucherScreenState extends State<VoucherScreen> {
-
   VoucherBloc bloc = VoucherBloc();
 
   Future<void> _load() async {
@@ -41,26 +45,43 @@ class _VoucherScreenState extends State<VoucherScreen> {
   void showDialogDelete(VoucherModel model) {
     showPopup(
       context,
-      height: 100,
+      height: 180,
       children: [
-        text("${Strings.voceRealmenteDesejaApagarOVoucher}: ${model.titulo}", fontSize: 15),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            appSizedBoxHeight(AppSpacing.normal),
+            text(AppStrings.voceRealmenteDesejaApagarOVoucher, fontSize: AppFontSizes.normal),
+            appSizedBoxHeight(AppSpacing.medium),
+            container(
+              radius: BorderRadius.circular(AppRadius.normal),
+              backgroundColor: AppColors.grey300,
+              padding: EdgeInsets.all(AppSpacing.normal),
+              child: text(model.titulo!, fontSize: AppFontSizes.big, bold: true, color: AppColors.primaryColor),
+            ),
+          ],
+        ),
         const Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             elevatedButtonText(
-              Strings.cancelar.toUpperCase(),
+              AppStrings.cancelar.toUpperCase(),
               function: () => Navigator.pop(context),
               width: 230,
-              color: AppColor.primaryColor,
-              textColor: Colors.white,
+              height: 40,
+              color: AppColors.primaryColor,
+              borderRadius: AppRadius.normal,
+              textColor: AppColors.white,
             ),
             elevatedButtonText(
-              Strings.apagar.toUpperCase(),
+              AppStrings.apagar.toUpperCase(),
               function: () => bloc.add(VoucherDeleteEvent(model.id!)),
-              color: Colors.red,
-              textColor: Colors.white,
+              color: AppColors.red,
+              textColor: AppColors.white,
+              borderRadius: AppRadius.normal,
               width: 230,
+              height: 40,
             ),
           ],
         ),
@@ -72,14 +93,14 @@ class _VoucherScreenState extends State<VoucherScreen> {
     return state.vouchers.reversed.map((model) {
       return DataRow(
         cells: [
-          DataCell(imageTable(Endpoint.endpointImageVoucher(model.id!))),
+          DataCell(imageTable(AppEndpoints.endpointImageVoucher(model.id!))),
           DataCell(textSelectable(model.titulo!)),
           DataCell(textSelectable(model.dataComeco!)),
           DataCell(textSelectable(model.dataFinal!)),
           DataCell(textSelectable('${model.pontosCheio} Pontos')),
           DataCell(textSelectable(model.desconto != 0 ? "${model.pontos} Pontos" : "-")),
-          DataCell(elevatedButtonTable(Strings.apagar, () => showDialogDelete(model), color: Colors.red)),
-          DataCell(elevatedButtonTable(Strings.editar, () => open(context, screen: CadastrarEditarVoucherScreen(voucherModel: model)))),
+          DataCell(elevatedButtonTable(AppStrings.apagar, () => showDialogDelete(model), color: AppColors.red)),
+          DataCell(elevatedButtonTable(AppStrings.editar, () => open(context, screen: CadastrarEditarVoucherScreen(voucherModel: model)))),
         ],
       );
     }).toList();
@@ -88,27 +109,28 @@ class _VoucherScreenState extends State<VoucherScreen> {
   Widget _body(VoucherState state) {
     return getTableDefault(
       context: context,
-      titulo: Strings.vouchers,
+      titulo: AppStrings.vouchers,
       reload: _load,
       children: [
         elevatedButtonText(
-          Strings.criarVoucher,
+          AppStrings.criarVoucher,
           height: 40,
           width: 150,
-          color: Colors.green.shade700,
-          textColor: Colors.white,
+          borderRadius: AppRadius.normal,
+          color: AppColors.green700,
+          textColor: AppColors.white,
           function: () => open(context, screen: const CadastrarEditarVoucherScreen(voucherModel: null)),
         )
       ],
       colunas: [
-        DataColumn(label: text(Strings.imagem, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.titulo, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.dataInicial, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.dataFinal, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.pontosCheios, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.pontosPromocao, bold: true, color: Colors.white)),
-        DataColumn(label: text('', bold: true, color: Colors.white)),
-        DataColumn(label: text('', bold: true, color: Colors.white)),
+        DataColumn(label: text(AppStrings.imagem, bold: true, color: AppColors.white)),
+        DataColumn(label: text(AppStrings.titulo, bold: true, color: AppColors.white)),
+        DataColumn(label: text(AppStrings.dataInicial, bold: true, color: AppColors.white)),
+        DataColumn(label: text(AppStrings.dataFinal, bold: true, color: AppColors.white)),
+        DataColumn(label: text(AppStrings.pontosCheios, bold: true, color: AppColors.white)),
+        DataColumn(label: text(AppStrings.pontosPromocao, bold: true, color: AppColors.white)),
+        DataColumn(label: text('', bold: true, color: AppColors.white)),
+        DataColumn(label: text('', bold: true, color: AppColors.white)),
       ],
       linhas: _linhas(state),
     );
@@ -135,7 +157,15 @@ class _VoucherScreenState extends State<VoucherScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return _bodyBuilder();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
+        title: text("Solicitação de PIX/Vouchers", fontSize: AppFontSizes.normal),
+      ),
+      backgroundColor: Colors.white,
+      drawer: appDrawer(),
+      body: _bodyBuilder(),
+    );
   }
 
   @override

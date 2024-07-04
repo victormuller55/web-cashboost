@@ -1,9 +1,9 @@
 import 'package:intl/intl.dart';
-import 'package:web_cashboost/app_widget/strings.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_strings.dart';
 
 String formatarCPF(String cpf) {
   if (cpf.length != 11) {
-    return Strings.cpfInvalido;
+    return AppStrings.cpfInvalido;
   }
   return '${cpf.substring(0, 3)}.${cpf.substring(3, 6)}.${cpf.substring(6, 9)}-${cpf.substring(9, 11)}';
 }
@@ -28,13 +28,13 @@ DateTime formatarDDMMYYYYHHMMToDate(String dataHora) {
 
         return DateTime(ano, mes, dia, hora, minuto);
       } else {
-        throw Exception(Strings.formatoDeDataHoraInvalido);
+        throw Exception(AppStrings.formatoDeDataHoraInvalido);
       }
     } else {
-      throw Exception(Strings.formatoDeDataHoraInvalido);
+      throw Exception(AppStrings.formatoDeDataHoraInvalido);
     }
   } catch (e) {
-    throw Exception(Strings.formatoDeDataHoraInvalido);
+    throw Exception(AppStrings.formatoDeDataHoraInvalido);
   }
 }
 

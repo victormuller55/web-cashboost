@@ -1,15 +1,17 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:web_cashboost/app_widget/color/colors.dart';
-import 'package:web_cashboost/app_widget/endpoints.dart';
-import 'package:web_cashboost/app_widget/form_field_formatters/form_field_formatter.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_colors.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_endpoints.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_font_sizes.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_form_formatter.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_radius.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_spacing.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_strings.dart';
 import 'package:web_cashboost/app_widget/snack_bar/snack_bar.dart';
-import 'package:web_cashboost/app_widget/strings.dart';
 import 'package:web_cashboost/models/voucher_model.dart';
 import 'package:web_cashboost/telas/vouchers/voucher_bloc.dart';
 import 'package:web_cashboost/telas/vouchers/voucher_event.dart';
@@ -34,12 +36,12 @@ class CadastrarEditarVoucherScreen extends StatefulWidget {
 class _CadastrarEditarVoucherScreenState extends State<CadastrarEditarVoucherScreen> {
   VoucherBloc bloc = VoucherBloc();
 
-  TextEditingController tituloController = TextEditingController();
-  TextEditingController descricaoController = TextEditingController();
-  TextEditingController dataInicioController = TextEditingController();
-  TextEditingController dataFimController = TextEditingController();
-  TextEditingController descontoController = TextEditingController();
-  TextEditingController pontosController = TextEditingController();
+  TextEditingController titulo = TextEditingController();
+  TextEditingController descricao = TextEditingController();
+  TextEditingController dataInicio = TextEditingController();
+  TextEditingController dataFim = TextEditingController();
+  TextEditingController desconto = TextEditingController();
+  TextEditingController pontos = TextEditingController();
 
   DateFormat dataFormatada = DateFormat('dd/MM/yyyy HH:mm');
 
@@ -47,18 +49,19 @@ class _CadastrarEditarVoucherScreenState extends State<CadastrarEditarVoucherScr
 
   @override
   void initState() {
-    dataInicioController.text = dataFormatada.format(DateTime.now());
-    dataFimController.text = dataFormatada.format(DateTime.now().add(const Duration(days: 30)));
+    dataInicio.text = dataFormatada.format(DateTime.now());
+    dataFim.text = dataFormatada.format(DateTime.now().add(const Duration(days: 30)));
 
     if (widget.voucherModel != null) {
-      tituloController.text = widget.voucherModel!.titulo!;
-      descricaoController.text = widget.voucherModel!.descricao!;
-      dataInicioController.text = widget.voucherModel!.dataComeco!;
-      dataFimController.text = widget.voucherModel!.dataFinal!;
+      titulo.text = widget.voucherModel!.titulo!;
+      descricao.text = widget.voucherModel!.descricao!;
+      dataInicio.text = widget.voucherModel!.dataComeco!;
+      dataFim.text = widget.voucherModel!.dataFinal!;
+      pontos.text = widget.voucherModel!.pontosCheio.toString();
+
       if (widget.voucherModel!.desconto != 0) {
-        descontoController.text = widget.voucherModel!.desconto.toString();
+        desconto.text = widget.voucherModel!.desconto.toString();
       }
-      pontosController.text = widget.voucherModel!.pontosCheio.toString();
     }
 
     super.initState();
@@ -76,38 +79,35 @@ class _CadastrarEditarVoucherScreenState extends State<CadastrarEditarVoucherScr
         setState(() => imageFile = File(image.path));
       }
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-      showSnackbarError(context, message: Strings.naoEPossivelAbrirAGaleria);
+      showSnackbarError(context, message: AppStrings.naoEPossivelAbrirAGaleria);
     }
   }
 
   void _checkForms() {
-    if (tituloController.text.isNotEmpty) {
-      if (descricaoController.text.isNotEmpty) {
-        if (dataInicioController.text.isNotEmpty) {
-          if (dataFimController.text.isNotEmpty) {
-            if (pontosController.text.isNotEmpty) {
+    if (titulo.text.isNotEmpty) {
+      if (descricao.text.isNotEmpty) {
+        if (dataInicio.text.isNotEmpty) {
+          if (dataFim.text.isNotEmpty) {
+            if (pontos.text.isNotEmpty) {
               VoucherModel voucherModel = VoucherModel();
 
               if (widget.voucherModel == null) {
                 voucherModel = VoucherModel(
-                  titulo: tituloController.text,
-                  descricao: descricaoController.text,
-                  dataComeco: dataInicioController.text,
-                  dataFinal: dataFimController.text,
-                  pontosCheio: int.parse(pontosController.text),
+                  titulo: titulo.text,
+                  descricao: descricao.text,
+                  dataComeco: dataInicio.text,
+                  dataFinal: dataFim.text,
+                  pontosCheio: int.parse(pontos.text),
                 );
               } else {
                 voucherModel = VoucherModel(
                   id: widget.voucherModel!.id,
-                  titulo: tituloController.text,
-                  descricao: descricaoController.text,
-                  dataComeco: dataInicioController.text,
-                  dataFinal: dataFimController.text,
-                  pontosCheio: int.parse(pontosController.text),
-                  desconto: int.parse(descontoController.text),
+                  titulo: titulo.text,
+                  descricao: descricao.text,
+                  dataComeco: dataInicio.text,
+                  dataFinal: dataFim.text,
+                  pontosCheio: int.parse(pontos.text),
+                  desconto: int.parse(desconto.text),
                 );
               }
 
@@ -115,15 +115,15 @@ class _CadastrarEditarVoucherScreenState extends State<CadastrarEditarVoucherScr
               return bloc.add(VoucherSaveEvent(voucherModel, imageFile));
             }
 
-            return showSnackbarWarning(context, message: Strings.preenchaTodosOsCampos);
+            return showSnackbarWarning(context, message: AppStrings.preenchaTodosOsCampos);
           }
-          return showSnackbarWarning(context, message: Strings.preenchaTodosOsCampos);
+          return showSnackbarWarning(context, message: AppStrings.preenchaTodosOsCampos);
         }
-        return showSnackbarWarning(context, message: Strings.preenchaTodosOsCampos);
+        return showSnackbarWarning(context, message: AppStrings.preenchaTodosOsCampos);
       }
-      return showSnackbarWarning(context, message: Strings.preenchaTodosOsCampos);
+      return showSnackbarWarning(context, message: AppStrings.preenchaTodosOsCampos);
     }
-    return showSnackbarWarning(context, message: Strings.preenchaTodosOsCampos);
+    return showSnackbarWarning(context, message: AppStrings.preenchaTodosOsCampos);
   }
 
   Widget _body() {
@@ -137,7 +137,7 @@ class _CadastrarEditarVoucherScreenState extends State<CadastrarEditarVoucherScr
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            sizedBoxVertical(10),
+            appSizedBoxHeight(AppSpacing.normal),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -148,62 +148,62 @@ class _CadastrarEditarVoucherScreenState extends State<CadastrarEditarVoucherScr
                             ? container(
                                 height: 150,
                                 width: 150,
-                                radius: BorderRadius.circular(20),
-                                backgroundColor: Colors.white,
-                                image: NetworkImage(Endpoint.endpointImageVoucher(widget.voucherModel!.id!)),
+                                radius: BorderRadius.circular(AppRadius.medium),
+                                backgroundColor: AppColors.white,
+                                image: NetworkImage(AppEndpoints.endpointImageVoucher(widget.voucherModel!.id!)),
                               )
                             : container(
                                 height: 150,
                                 width: 150,
-                                radius: BorderRadius.circular(20),
-                                backgroundColor: Colors.white,
+                                radius: BorderRadius.circular(AppRadius.medium),
+                                backgroundColor: AppColors.white,
                                 image: NetworkImage(imageFile.path),
                               ),
                       )
                     : Container(),
-                const SizedBox(width: 10),
+                appSizedBoxHeight(AppSpacing.normal),
                 container(
                   width: widget.voucherModel != null ? inteiraTela - 150 : inteiraTela,
                   height: 150,
-                  backgroundColor: Colors.grey.shade300,
-                  radius: BorderRadius.circular(20),
-                  padding: const EdgeInsets.all(10),
+                  backgroundColor: AppColors.grey300,
+                  radius: BorderRadius.circular(AppRadius.medium),
+                  padding: EdgeInsets.all(AppSpacing.normal),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      text("Info:".toUpperCase(), color: AppColor.primaryColor, bold: true, fontSize: 20),
-                      sizedBoxVertical(10),
-                      text(Strings.mensagemCadastroVoucher, color: Colors.grey.shade800),
+                      text("Info:".toUpperCase(), color: AppColors.primaryColor, bold: true, fontSize: AppFontSizes.medium),
+                      appSizedBoxHeight(AppSpacing.normal),
+                      text(AppStrings.mensagemCadastroVoucher, color: AppColors.grey800),
                     ],
                   ),
                 ),
               ],
             ),
-            sizedBoxVertical(10),
-            formFieldPadrao(context, Strings.digiteOTituloDoVoucher, width: inteiraTela, controller: tituloController),
-            sizedBoxVertical(10),
-            formFieldPadrao(context, Strings.digiteADescricao, width: inteiraTela, controller: descricaoController),
-            sizedBoxVertical(10),
+            appSizedBoxHeight(AppSpacing.normal),
+            appFormFieldPadrao(context, AppStrings.digiteOTituloDoVoucher, width: inteiraTela, controller: titulo),
+            appSizedBoxHeight(AppSpacing.normal),
+            appFormFieldPadrao(context, AppStrings.digiteADescricao, width: inteiraTela, controller: descricao),
+            appSizedBoxHeight(AppSpacing.normal),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                formFieldPadrao(context, Strings.digiteADataInicial, width: metadeDaMetadeTela, textInputFormatter: FormFieldFormatter.dataHoraFormatter, controller: dataInicioController),
-                const SizedBox(width: 10),
-                formFieldPadrao(context, Strings.digiteADataFinal, width: metadeDaMetadeTela, textInputFormatter: FormFieldFormatter.dataHoraFormatter, controller: dataFimController),
-                sizedBoxVertical(10),
+                appFormFieldPadrao(context, AppStrings.digiteADataInicial, width: metadeDaMetadeTela, textInputFormatter: AppFormFormatters.dataFormatter, controller: dataInicio),
+                appSizedBoxHeight(AppSpacing.normal),
+                appFormFieldPadrao(context, AppStrings.digiteADataFinal, width: metadeDaMetadeTela, textInputFormatter: AppFormFormatters.dataFormatter, controller: dataFim),
+                appSizedBoxHeight(AppSpacing.normal),
               ],
             ),
-            sizedBoxVertical(10),
-            formFieldPadrao(context, Strings.digiteAQuantidadeDePontos, width: inteiraTela, controller: pontosController),
-            sizedBoxVertical(10),
-            widget.voucherModel != null ? formFieldPadrao(context, Strings.digiteODescontoEmPontos, width: inteiraTela, controller: descontoController) : Container(),
-            sizedBoxVertical(10),
+            appSizedBoxHeight(AppSpacing.normal),
+            appFormFieldPadrao(context, AppStrings.digiteAQuantidadeDePontos, width: inteiraTela, controller: pontos),
+            appSizedBoxHeight(AppSpacing.normal),
+            widget.voucherModel != null ? appFormFieldPadrao(context, AppStrings.digiteODescontoEmPontos, width: inteiraTela, controller: desconto) : Container(),
+            appSizedBoxHeight(AppSpacing.normal),
             elevatedButtonText(
-              Strings.salvar.toUpperCase(),
+              AppStrings.salvar.toUpperCase(),
               function: () => _checkForms(),
               width: inteiraTela,
-              color: AppColor.primaryColor,
-              textColor: Colors.white,
+              color: AppColors.primaryColor,
+              textColor: AppColors.white,
             ),
           ],
         ),
@@ -229,7 +229,7 @@ class _CadastrarEditarVoucherScreenState extends State<CadastrarEditarVoucherScr
   @override
   Widget build(BuildContext context) {
     return scaffold(
-      title: Strings.cadastrarOuEditarVoucher,
+      title: AppStrings.cadastrarOuEditarVoucher,
       body: _bodyBuilder(),
     );
   }

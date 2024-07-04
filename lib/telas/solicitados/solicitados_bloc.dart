@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:web_cashboost/app_widget/api_exception.dart';
-import 'package:web_cashboost/functions/service.dart';
+import 'package:web_cashboost/api/api_exception.dart';
+import 'package:web_cashboost/api/api_connection.dart';
 import 'package:web_cashboost/models/error_model.dart';
 import 'package:web_cashboost/models/historico_model.dart';
 import 'package:web_cashboost/telas/solicitados/solicitados_event.dart';
@@ -24,13 +24,14 @@ class SolicitadosBloc extends Bloc<SolicitadosEvent, SolicitadosState> {
 
         emit(SolicitadosSuccessState(solicitacoes: solicitacoes));
       } catch (e) {
-        emit(SolicitadosErrorState(errorModel: e is ApiException ? ErrorModel.fromMap(jsonDecode(e.response.body)) : ErrorModel.empty()));
+        emit(SolicitadosErrorState(errorModel: ApiException.errorModel(e)));
       }
     });
 
     on<SolicitadosEnviadoEvent>((event, emit) async {
       emit(SolicitadosLoadingState());
       try {
+
         List<HistoricoModel> solicitacoes = [];
         Response response = await putSolicitacao(event.idSolicitacao);
 
@@ -41,7 +42,7 @@ class SolicitadosBloc extends Bloc<SolicitadosEvent, SolicitadosState> {
 
         emit(SolicitadosSuccessState(solicitacoes: solicitacoes));
       } catch (e) {
-        emit(SolicitadosErrorState(errorModel: e is ApiException ? ErrorModel.fromMap(jsonDecode(e.response.body)) : ErrorModel.empty()));
+        emit(SolicitadosErrorState(errorModel: ApiException.errorModel(e)));
       }
     });
   }

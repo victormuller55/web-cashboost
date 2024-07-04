@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:web_cashboost/widgets/util.dart' as util;
 
-formFieldPadrao(
+appFormFieldPadrao(
   BuildContext context,
   String text, {
   double? width,
+  double? radius,
   bool? showSenha,
   bool? enable,
   TextEditingController? controller,
@@ -13,6 +14,7 @@ formFieldPadrao(
   String? Function(String? value)? validator,
   TextInputFormatter? textInputFormatter,
   Icon? icon,
+      Color? background
 }) {
   return SizedBox(
     width: width,
@@ -32,14 +34,14 @@ formFieldPadrao(
           inputFormatters: textInputFormatter != null ? [textInputFormatter] : null,
           decoration: InputDecoration(
             filled: true,
-            fillColor: Colors.white,
+            fillColor: background ?? Colors.white,
             contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
-            border: OutlineInputBorder(borderSide: const BorderSide(color: Colors.transparent, width: 0.5), borderRadius: BorderRadius.circular(40)),
-            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.transparent, strokeAlign: 5), borderRadius: BorderRadius.circular(40)),
-            disabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(40)),
-            focusedBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.transparent, strokeAlign: 5), borderRadius: BorderRadius.circular(40)),
-            focusedErrorBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.red), borderRadius: BorderRadius.circular(40)),
-            errorBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.red), borderRadius: BorderRadius.circular(40)),
+            border: OutlineInputBorder(borderSide: const BorderSide(color: Colors.transparent, width: 0.5), borderRadius: BorderRadius.circular(radius ?? 40)),
+            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.transparent, strokeAlign: 5), borderRadius: BorderRadius.circular(radius ?? 40)),
+            disabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(radius ?? 40)),
+            focusedBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.transparent, strokeAlign: 5), borderRadius: BorderRadius.circular(radius ?? 40)),
+            focusedErrorBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.red), borderRadius: BorderRadius.circular(radius ?? 40)),
+            errorBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.red), borderRadius: BorderRadius.circular(radius ?? 40)),
             hintText: text,
             hintStyle: const TextStyle(fontFamily: 'lato', fontSize: 13, color: Colors.grey),
           ),

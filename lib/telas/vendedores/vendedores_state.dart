@@ -1,6 +1,6 @@
 import 'package:web_cashboost/models/concessionaria_model.dart';
 import 'package:web_cashboost/models/error_model.dart';
-import 'package:web_cashboost/models/usuario_model.dart';
+import 'package:web_cashboost/models/vendedor_model.dart';
 
 abstract class VendedoresState {
   ErrorModel errorModel;

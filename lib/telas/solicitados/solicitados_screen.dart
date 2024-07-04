@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:web_cashboost/app_widget/color/colors.dart';
-import 'package:web_cashboost/app_widget/strings.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_colors.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_font_sizes.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_radius.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_spacing.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_strings.dart';
 import 'package:web_cashboost/functions/formatters.dart';
 import 'package:web_cashboost/models/historico_model.dart';
 import 'package:web_cashboost/telas/solicitados/solicitados_bloc.dart';
@@ -9,9 +12,11 @@ import 'package:web_cashboost/telas/solicitados/solicitados_event.dart';
 import 'package:web_cashboost/telas/solicitados/solicitados_state.dart';
 import 'package:web_cashboost/widgets/container.dart';
 import 'package:web_cashboost/widgets/dialog.dart';
+import 'package:web_cashboost/widgets/drawer.dart';
 import 'package:web_cashboost/widgets/elevated_button.dart';
 import 'package:web_cashboost/widgets/erro.dart';
 import 'package:web_cashboost/widgets/loading.dart';
+import 'package:web_cashboost/widgets/sized_box.dart';
 import 'package:web_cashboost/widgets/tables.dart';
 import 'package:web_cashboost/widgets/util.dart';
 
@@ -24,6 +29,7 @@ class SolicitadosScreen extends StatefulWidget {
 }
 
 class _SolicitadosScreenState extends State<SolicitadosScreen> {
+  
   SolicitadosBloc bloc = SolicitadosBloc();
 
   Future<void> _load() async {
@@ -38,18 +44,18 @@ class _SolicitadosScreenState extends State<SolicitadosScreen> {
 
   Color _enviadoColor(HistoricoModel model) {
     if (model.enviado!) {
-      return Colors.green;
+      return AppColors.green;
     }
 
-    return Colors.grey;
+    return AppColors.grey;
   }
 
   String _enviadoValue(HistoricoModel model) {
     if (model.enviado!) {
-      return Strings.enviado.toUpperCase();
+      return AppStrings.enviado.toUpperCase();
     }
 
-    return Strings.naoEnviado.toUpperCase();
+    return AppStrings.naoEnviado.toUpperCase();
   }
 
   void _onMarcarComoEnviado(HistoricoModel historicoModel) {
@@ -63,27 +69,31 @@ class _SolicitadosScreenState extends State<SolicitadosScreen> {
       height: 150,
       children: [
         container(
-          backgroundColor: Colors.grey.shade300,
-          radius: BorderRadius.circular(20),
-          padding: const EdgeInsets.all(10),
-          child: text(Strings.confirmacaoMarcarComoFeito, fontSize: 15, textAlign: TextAlign.center),
+          backgroundColor: AppColors.grey300,
+          radius: BorderRadius.circular(AppRadius.normal),
+          padding: EdgeInsets.all(AppSpacing.normal),
+          child: text(AppStrings.confirmacaoMarcarComoFeito, fontSize: AppFontSizes.normal, textAlign: TextAlign.center),
         ),
-        const SizedBox(height: 10),
+        appSizedBoxHeight(AppSpacing.normal),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             elevatedButtonText(
-              Strings.marcarComoEnviado.toUpperCase(),
+              AppStrings.marcarComoEnviado.toUpperCase(),
+              color: AppColors.green,
+              textColor: AppColors.white,
+              borderRadius: AppRadius.normal,
               width: 230,
-              color: Colors.green,
-              textColor: Colors.white,
+              height: 40,
               function: () => _onMarcarComoEnviado(historicoModel),
             ),
             elevatedButtonText(
-              Strings.cancelar.toUpperCase(),
-              color: AppColor.primaryColor,
-              textColor: Colors.white,
+              AppStrings.cancelar.toUpperCase(),
+              color: AppColors.primaryColor,
+              textColor: AppColors.white,
+              borderRadius: AppRadius.normal,
               width: 230,
+              height: 40,
               function: () => Navigator.pop(context),
             ),
           ],
@@ -101,7 +111,7 @@ class _SolicitadosScreenState extends State<SolicitadosScreen> {
           DataCell(textSelectable(model.titulo.toString())),
           DataCell(textSelectable(model.valor.toString())),
           DataCell(textSelectable(_enviadoValue(model), bold: true, color: _enviadoColor(model))),
-          DataCell(model.enviado! ? textSelectable("-") : elevatedButtonTable(Strings.enviado, () => _showDialogMarcarComoEnviado(model))),
+          DataCell(model.enviado! ? textSelectable("-") : elevatedButtonTable(AppStrings.enviado, () => _showDialogMarcarComoEnviado(model))),
         ],
       );
     }).toList();
@@ -110,15 +120,15 @@ class _SolicitadosScreenState extends State<SolicitadosScreen> {
   Widget _body(SolicitadosState state) {
     return getTableDefault(
       context: context,
-      titulo: Strings.pixVoucher,
+      titulo: AppStrings.pixVoucher,
       reload: () => _load(),
       colunas: [
-        DataColumn(label: text(Strings.vendedor, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.dataDoPedido, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.voucher, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.valorQuantPontos, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.enviado, bold: true, color: Colors.white)),
-        DataColumn(label: text('', bold: true, color: Colors.white)),
+        DataColumn(label: text(AppStrings.vendedor, bold: true, color: AppColors.white)),
+        DataColumn(label: text(AppStrings.dataDoPedido, bold: true, color: AppColors.white)),
+        DataColumn(label: text(AppStrings.voucher, bold: true, color: AppColors.white)),
+        DataColumn(label: text(AppStrings.valorQuantPontos, bold: true, color: AppColors.white)),
+        DataColumn(label: text(AppStrings.enviado, bold: true, color: AppColors.white)),
+        DataColumn(label: text('', bold: true, color: AppColors.white)),
       ],
       linhas: getVendasRows(state.solicitacoes),
     );
@@ -143,7 +153,15 @@ class _SolicitadosScreenState extends State<SolicitadosScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return _bodyBuilder();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
+        title: text("Voucher/PIX Solicitados", fontSize: AppFontSizes.normal),
+      ),
+      drawer: appDrawer(),
+      body: _bodyBuilder(),
+    );
   }
 
   @override

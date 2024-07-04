@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:web_cashboost/app_widget/color/colors.dart';
-import 'package:web_cashboost/app_widget/strings.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_colors.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_font_sizes.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_radius.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_spacing.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_strings.dart';
 import 'package:web_cashboost/functions/formatters.dart';
 import 'package:web_cashboost/models/venda_model.dart';
 import 'package:web_cashboost/telas/vendas/vendas_bloc.dart';
@@ -9,6 +12,7 @@ import 'package:web_cashboost/telas/vendas/vendas_event.dart';
 import 'package:web_cashboost/telas/vendas/vendas_state.dart';
 import 'package:web_cashboost/widgets/container.dart';
 import 'package:web_cashboost/widgets/dialog.dart';
+import 'package:web_cashboost/widgets/drawer.dart';
 import 'package:web_cashboost/widgets/elevated_button.dart';
 import 'package:web_cashboost/widgets/erro.dart';
 import 'package:web_cashboost/widgets/form_field.dart';
@@ -24,7 +28,8 @@ class VendasScreen extends StatefulWidget {
 }
 
 class _VendasScreenState extends State<VendasScreen> {
-  TextEditingController controllerMansagem = TextEditingController();
+  
+  TextEditingController mensagem = TextEditingController();
   VendaBloc bloc = VendaBloc();
 
   Future<void> _load() async {
@@ -40,27 +45,27 @@ class _VendasScreenState extends State<VendasScreen> {
   Color _aprovadoColor(VendaModel model) {
     switch (model.vendaAprovado) {
       case 1:
-        return Colors.green;
+        return AppColors.green;
       case 2:
-        return Colors.red;
+        return AppColors.red;
       default:
-        return Colors.grey;
+        return AppColors.grey;
     }
   }
 
   String _aprovadoValue(VendaModel model) {
     switch (model.vendaAprovado) {
       case 1:
-        return Strings.aprovado.toUpperCase();
+        return AppStrings.aprovado.toUpperCase();
       case 2:
-        return Strings.recusado.toUpperCase();
+        return AppStrings.recusado.toUpperCase();
       default:
         return "-";
     }
   }
 
   void _onTapEnviarMensagem(VendaModel vendaModel) {
-    bloc.add(VendaRecusarEvent(vendaModel.idVenda!, controllerMansagem.text));
+    bloc.add(VendaRecusarEvent(vendaModel.idVenda!, mensagem.text));
     Navigator.pop(context);
   }
 
@@ -77,14 +82,16 @@ class _VendasScreenState extends State<VendasScreen> {
   void _showDialogRecusar(VendaModel vendaModel) {
     showPopup(
       context,
-      height: 150,
+      height: 160,
       children: [
-        formFieldPadrao(context, Strings.digiteOMotivo, controller: controllerMansagem),
+        appFormFieldPadrao(context, AppStrings.digiteOMotivo, controller: mensagem, radius: AppRadius.normal, background: AppColors.grey300),
         elevatedButtonText(
-          Strings.enviarMensagem.toUpperCase(),
-          width: 230,
-          color: Colors.red,
-          textColor: Colors.white,
+          AppStrings.enviarMensagem.toUpperCase(),
+          color: AppColors.red,
+          width: MediaQuery.of(context).size.width,
+          textColor: AppColors.white,
+          height: 40,
+          borderRadius: AppRadius.normal,
           function: () => _onTapEnviarMensagem(vendaModel),
         ),
       ],
@@ -94,28 +101,34 @@ class _VendasScreenState extends State<VendasScreen> {
   void _showDialogAceitar(VendaModel vendaModel) {
     showPopup(
       context,
+      height: 150,
       children: [
         container(
-          backgroundColor: Colors.grey.shade300,
-          radius: BorderRadius.circular(20),
-          padding: const EdgeInsets.all(10),
-          child: text(Strings.confirmacaoAprovarRecusarVenda, fontSize: 15, textAlign: TextAlign.center),
+          width: MediaQuery.of(context).size.width,
+          backgroundColor: AppColors.grey300,
+          radius: BorderRadius.circular(AppRadius.normal),
+          padding: EdgeInsets.all(AppSpacing.normal),
+          child: text(AppStrings.confirmacaoAprovarRecusarVenda, fontSize: AppFontSizes.normal, textAlign: TextAlign.center),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             elevatedButtonText(
-              Strings.recusar.toUpperCase(),
+              AppStrings.recusar.toUpperCase(),
               width: 230,
-              color: Colors.red,
-              textColor: Colors.white,
+              height: 40,
+              borderRadius: AppRadius.normal,
+              textColor: AppColors.white,
+              color: AppColors.red,
               function: () => _onTapRecusar(vendaModel),
             ),
             elevatedButtonText(
-              Strings.aprovar.toUpperCase(),
-              color: AppColor.primaryColor,
-              textColor: Colors.white,
+              AppStrings.aprovar.toUpperCase(),
               width: 230,
+              height: 40,
+              borderRadius: AppRadius.normal,
+              textColor: AppColors.white,
+              color: AppColors.green,
               function: () => _onTapAceitar(vendaModel),
             ),
           ],
@@ -133,7 +146,7 @@ class _VendasScreenState extends State<VendasScreen> {
           DataCell(textSelectable(formatarData(model.dataEnvio ?? ''))),
           DataCell(textSelectable(model.ponteira.toString())),
           DataCell(textSelectable(_aprovadoValue(model), bold: true, color: _aprovadoColor(model))),
-          model.vendaAprovado != 0 ? DataCell(textSelectable("-")) : DataCell(elevatedButtonTable(Strings.aprovar, () => _showDialogAceitar(model))),
+          model.vendaAprovado != 0 ? DataCell(textSelectable("-")) : DataCell(elevatedButtonTable(AppStrings.aprovar, () => _showDialogAceitar(model))),
         ],
       );
     }).toList();
@@ -142,15 +155,15 @@ class _VendasScreenState extends State<VendasScreen> {
   Widget _body(VendaState state) {
     return getTableDefault(
       context: context,
-      titulo: Strings.vendas,
+      titulo: AppStrings.vendas,
       reload: () => _load(),
       colunas: [
-        DataColumn(label: text(Strings.vendedor, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.codigoNFE, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.dataDeEnvio, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.ponteira, bold: true, color: Colors.white)),
-        DataColumn(label: text(Strings.aprovado, bold: true, color: Colors.white)),
-        DataColumn(label: text('', bold: true, color: Colors.white)),
+        DataColumn(label: text(AppStrings.vendedor, bold: true, color: AppColors.white)),
+        DataColumn(label: text(AppStrings.codigoNFE, bold: true, color: AppColors.white)),
+        DataColumn(label: text(AppStrings.dataDeEnvio, bold: true, color: AppColors.white)),
+        DataColumn(label: text(AppStrings.ponteira, bold: true, color: AppColors.white)),
+        DataColumn(label: text(AppStrings.aprovado, bold: true, color: AppColors.white)),
+        DataColumn(label: text('', bold: true, color: AppColors.white)),
       ],
       linhas: getVendasRows(state.vendas),
     );
@@ -175,7 +188,15 @@ class _VendasScreenState extends State<VendasScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return _bodyBuilder();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
+        title: text("Vendas Enviadas", fontSize: AppFontSizes.normal),
+      ),
+      drawer: appDrawer(),
+      body: _bodyBuilder(),
+    );
   }
 
   @override

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:web_cashboost/app_widget/api_exception.dart';
-import 'package:web_cashboost/functions/service.dart';
+import 'package:web_cashboost/api/api_exception.dart';
+import 'package:web_cashboost/api/api_connection.dart';
 import 'package:web_cashboost/models/error_model.dart';
 import 'package:web_cashboost/models/venda_model.dart';
 import 'package:web_cashboost/telas/vendas/vendas_event.dart';
@@ -24,7 +24,8 @@ class VendaBloc extends Bloc<VendaEvent, VendaState> {
 
         emit(VendaSuccessState(vendas: vendas));
       } catch (e) {
-        emit(VendaErrorState(errorModel: e is ApiException ? ErrorModel.fromMap(jsonDecode(e.response.body)) : ErrorModel.empty()));
+
+        emit(VendaErrorState(errorModel: ApiException.errorModel(e)));
       }
     });
 
@@ -41,7 +42,8 @@ class VendaBloc extends Bloc<VendaEvent, VendaState> {
 
         emit(VendaSuccessState(vendas: vendas));
       } catch (e) {
-        emit(VendaErrorState(errorModel: e is ApiException ? ErrorModel.fromMap(jsonDecode(e.response.body)) : ErrorModel.empty()));
+        emit(VendaErrorState(errorModel: ApiException.errorModel(e)));
+
       }
     });
 
@@ -58,7 +60,7 @@ class VendaBloc extends Bloc<VendaEvent, VendaState> {
 
         emit(VendaSuccessState(vendas: vendas));
       } catch (e) {
-        emit(VendaErrorState(errorModel: e is ApiException ? ErrorModel.fromMap(jsonDecode(e.response.body)) : ErrorModel.empty()));
+        emit(VendaErrorState(errorModel: ApiException.errorModel(e)));
       }
     });
   }

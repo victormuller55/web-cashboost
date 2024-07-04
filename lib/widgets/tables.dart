@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:web_cashboost/app_widget/color/colors.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_colors.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_radius.dart';
 import 'package:web_cashboost/app_widget/snack_bar/snack_bar.dart';
 import 'package:web_cashboost/widgets/elevated_button.dart';
 import 'package:web_cashboost/widgets/sized_box.dart';
@@ -126,7 +127,8 @@ Widget getTableDefault({
                 function: reload,
                 height: 40,
                 width: 150,
-                color: AppColor.primaryColor,
+                borderRadius: AppRadius.normal,
+                color: AppColors.primaryColor,
                 textColor: Colors.white,
               ),
               const SizedBox(width: 10),
@@ -134,14 +136,15 @@ Widget getTableDefault({
                 "Download PDF",
                 width: 150,
                 height: 40,
-                color: AppColor.primaryColor,
+                borderRadius: AppRadius.normal,
+                color: AppColors.primaryColor,
                 textColor: Colors.white,
                 function: () => onTapDonwload(context, globalKey: globalKey, titulo: titulo),
               ),
             ],
           ),
         ),
-        sizedBoxVertical(10),
+        appSizedBoxHeight(10),
         Expanded(
           child: Scrollbar(
             thumbVisibility: true,
@@ -153,8 +156,8 @@ Widget getTableDefault({
                 scrollDirection: Axis.vertical,
                 child: RepaintBoundary(
                   key: globalKey,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
                     child: DataTable(
                       showBottomBorder: true,
                       headingRowHeight: 40,
@@ -181,7 +184,7 @@ Widget elevatedButtonTable(String title, void Function() onTap, {Color? color}) 
     function: onTap,
     height: 15,
     width: 120,
-    color: color ?? AppColor.primaryColor,
+    color: color ?? AppColors.primaryColor,
     textColor: Colors.white,
   );
 }

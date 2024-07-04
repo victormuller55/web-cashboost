@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:web_cashboost/telas/home.dart';
+import 'package:web_cashboost/telas/vendedores/vendedores_screen.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({super.key});
@@ -12,10 +12,10 @@ class _AppWidgetState extends State<AppWidget> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const MyHomePage(),
-      title: "Administrativo Cashboost",
+      home: const VendedoresScreen(),
+      title: "Administrativo | Cashboost",
       theme: ThemeData(
-        useMaterial3: true,
+        useMaterial3: false,
         scaffoldBackgroundColor: Colors.transparent,
       ),
     );

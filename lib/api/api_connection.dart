@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:web_cashboost/app_widget/api_exception.dart';
-import 'package:web_cashboost/functions/internet_connection.dart';
+import 'package:web_cashboost/api/api_exception.dart';
+import 'package:web_cashboost/api/internet_connection.dart';
 
 class Response {
   int statusCode;

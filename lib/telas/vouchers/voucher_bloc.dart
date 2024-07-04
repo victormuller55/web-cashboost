@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:web_cashboost/app_widget/api_exception.dart';
-import 'package:web_cashboost/functions/service.dart';
+import 'package:web_cashboost/api/api_exception.dart';
+import 'package:web_cashboost/api/api_connection.dart';
 import 'package:web_cashboost/models/error_model.dart';
 import 'package:web_cashboost/models/voucher_model.dart';
 import 'package:web_cashboost/telas/vouchers/voucher_event.dart';

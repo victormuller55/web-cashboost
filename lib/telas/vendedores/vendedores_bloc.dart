@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:web_cashboost/app_widget/api_exception.dart';
-import 'package:web_cashboost/functions/service.dart';
+import 'package:web_cashboost/api/api_exception.dart';
+import 'package:web_cashboost/api/api_connection.dart';
 import 'package:web_cashboost/models/concessionaria_model.dart';
 import 'package:web_cashboost/models/error_model.dart';
-import 'package:web_cashboost/models/usuario_model.dart';
+import 'package:web_cashboost/models/vendedor_model.dart';
 import 'package:web_cashboost/telas/vendedores/vendedores_event.dart';
 import 'package:web_cashboost/telas/vendedores/vendedores_service.dart';
 import 'package:web_cashboost/telas/vendedores/vendedores_state.dart';
@@ -34,7 +34,7 @@ class VendedoresBloc extends Bloc<VendedoresEvent, VendedoresState> {
 
         emit(VendedoresSuccessState(usuarioModel: vendedores, concessionariaList: concessionarias));
       } catch (e) {
-        emit(VendedoresErrorState(errorModel: e is ApiException ? ErrorModel.fromMap(jsonDecode(e.response.body)) : ErrorModel.empty()));
+        emit(VendedoresErrorState(errorModel: ApiException.errorModel(e)));
       }
     });
   }

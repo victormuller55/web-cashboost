@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:web_cashboost/app_widget/color/colors.dart';
+import 'package:web_cashboost/app_widget/app_consts/app_colors.dart';
 import 'package:web_cashboost/widgets/util.dart';
 
 Widget scaffold({
@@ -7,6 +7,7 @@ Widget scaffold({
   required String title,
   bool? hideBackArrow,
   Widget? bottomNavigationBar,
+  Widget? drawer,
   Widget? floatingActionButton,
   List<Widget>? actions,
 }) {
@@ -14,10 +15,11 @@ Widget scaffold({
     builder: (context) {
       return Scaffold(
         extendBody: true,
+        drawer: drawer,
         backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: AppColor.primaryColor,
+          backgroundColor: AppColors.primaryColor,
           centerTitle: true,
           title: text(title.toUpperCase(), bold: true, color: Colors.white),
           leading: hideBackArrow ?? false ? Container() : IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios, color: Colors.white)),
